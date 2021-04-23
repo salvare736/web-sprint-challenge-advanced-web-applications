@@ -1,7 +1,9 @@
 import React from 'react';
-import { render, screen, waitFor } from '@testing-library/react';
-import userEvent from '@testing-library/user-event';
+import { render, waitFor } from '@testing-library/react';
 import BubblePage from './BubblePage';
+import { axiosWithAuth } from '../helpers/axiosWithAuth';
+
+jest.mock('../helpers/axiosWithAuth');
 
 const testData = [
   {
@@ -28,9 +30,15 @@ const testData = [
 ];
 
 test('Renders BubblePage without errors', () => {
-
+  render(<BubblePage state={testData} />)
 });
 
 test('Fetches data and renders the bubbles on mounting', async () => {
+  axiosWithAuth.mockResolvedValueOnce(testData);
 
+  const mockAxiosWithAuth = jest.fn();
+
+  render(<BubblePage state={testData} func={mockAxiosWithAuth} />)
+
+  expect(await waitFor(() => mockAxiosWithAuth)).toHaveBeenCalled();
 });
