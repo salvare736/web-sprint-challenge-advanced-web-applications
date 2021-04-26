@@ -3,7 +3,7 @@ import axios from "axios";
 
 import Color from './Color';
 import EditMenu from './EditMenu';
-import { axiosWithAuth } from "../helpers/axiosWithAuth";
+import axiosWithAuth from "../helpers/axiosWithAuth";
 
 const initialColor = {
   color: "",
